@@ -42,7 +42,7 @@ namespace RedditImporter
                         Console.Write("\nEnter username: ");
                         usr1 = Console.ReadLine();
                         Console.Write("Enter password: ");
-                        pwd1 = Console.ReadLine();
+                        pwd1 = Password();                        
                         impReddit.LogIn(usr1, pwd1);
                         Console.WriteLine("\nSubreddits:");
                         Subscribe(impReddit, subs);
@@ -57,7 +57,8 @@ namespace RedditImporter
                         Console.Write("\nEnter username: ");
                         usr1 = Console.ReadLine();
                         Console.Write("Enter password: ");
-                        pwd1 = Console.ReadLine();
+                        pwd1 = Password();
+                        impReddit.LogIn(usr1, pwd1);
                         impReddit.LogIn(usr1, pwd1);
                         ShowSubsUsers(impReddit, out subs, out users);
                         File.WriteAllLines(subFilePath + impReddit.User + "_users.txt", users); // export users list to file
@@ -78,7 +79,7 @@ namespace RedditImporter
                         Console.Write("Username: ");
                         usr1 = Console.ReadLine();
                         Console.Write("Password: ");
-                        pwd1 = Console.ReadLine();
+                        pwd1 = Password();
                         impReddit.LogIn(usr1, pwd1);
                         Console.WriteLine("\n\nDo you want to subscribe to all the listed subreddits?");
                         string answer1 = Console.ReadLine();
@@ -140,7 +141,7 @@ namespace RedditImporter
                         Console.Write("Enter username: ");
                         usr = Console.ReadLine();
                         Console.Write("Enter password: ");
-                        pwd = Console.ReadLine();
+                        pwd = Password();
                         expReddit.LogIn(usr, pwd);
                         Console.WriteLine($"\nDo you want to unsubscribe {expReddit.User} from all the listed subreddits?");
                         string answer3 = Console.ReadLine();
@@ -194,9 +195,8 @@ namespace RedditImporter
                         Console.Write("Enter username: ");
                         usr = Console.ReadLine();
                         Console.Write("Enter password: ");
-                        pwd = Console.ReadLine();
+                        pwd = Password();
                         expReddit.LogIn(usr, pwd);
-
                         Console.WriteLine($"\nDo you want to unfollow all users from {expReddit.User}?");
                         string answer5 = Console.ReadLine();
                         answer5 = answer5.ToLower();
@@ -219,7 +219,6 @@ namespace RedditImporter
                                 answer5 = answer5.ToLower();
                             }
                         }
-
                         Console.WriteLine($"\nDo you want to unsubscribe from all subreddits from {expReddit.User}?");
                         string answer6 = Console.ReadLine();
                         answer6 = answer6.ToLower();
@@ -250,7 +249,7 @@ namespace RedditImporter
                         Console.Write("Enter username: ");
                         usr = Console.ReadLine();
                         Console.Write("Enter password: ");
-                        pwd = Console.ReadLine();
+                        pwd = Password();                        
                         expReddit.LogIn(usr, pwd);
                         ShowSubsUsers(expReddit, out _, out _);
                         break;
@@ -349,6 +348,32 @@ namespace RedditImporter
                 Console.WriteLine(subreddit.Substring(6));
             }
             Console.WriteLine($"\nShowing {subs.Count} subreddits & {users.Count} users.\n");
+        }
+        public static string Password()
+        {
+            string pwd="";
+            do
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                {
+                    pwd += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.Backspace && pwd.Length > 0)
+                    {
+                        pwd = pwd.Substring(0, (pwd.Length - 1));
+                        Console.Write("\b \b");
+                    }
+                    else if (key.Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+            } while (true);
+            return pwd;
         }
 
     }
