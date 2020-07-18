@@ -71,7 +71,7 @@ namespace RedditImporter
                         Console.Write("Username: ");
                         usr = Console.ReadLine();
                         Console.Write("Password: ");
-                        pwd = Console.ReadLine();
+                        pwd = Password();
                         expReddit.LogIn(usr, pwd);
                         Console.WriteLine($"\n{expReddit.User} is currently subsribed to the following subreddits:\n");
                         ShowSubsUsers(expReddit, out subs, out users);
